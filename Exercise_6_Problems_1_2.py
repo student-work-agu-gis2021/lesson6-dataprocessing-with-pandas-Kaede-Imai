@@ -17,6 +17,15 @@ import numpy as np
 data = None
 
 # YOUR CODE HERE 1
+fp = r'data/1091402.txt'
+data = pd.read_csv(fp, delim_whitespace=True, skiprows=2, na_values=['-9999'])
+i=np.array(data)
+data=np.insert(i,0,['STATION', 'ELEVATION', 'LATTITUDE', 'LONGTUDE', 'DATE', 'PRCP', 'TAVG', 'TMAX', 'TMIN'], axis=0)
+data=pd.DataFrame(data)
+data=data.rename(columns=data.iloc[0])
+data=data.drop(data.index[0])
+print(data.head())
+print(data.tail())
 
 # ### Part 2 
 # 
@@ -27,7 +36,7 @@ data = None
 
 tavg_nodata_count = None
 #YOUR CODE HERE 2
-
+tavg_nodata_count = data['TAVG'].isnull().sum()
 
 #CAUTION!!! DON'T EDIT THIS PART START
 # Print out the solution:
@@ -40,6 +49,7 @@ print('Number of no-data values in column "TAVG":',tavg_nodata_count)
 
 tmin_nodata_count = None
 #YOUR CODE HERE 3
+tmin_nodata_count = data['TMIN'].isnull().sum()
 
 #CAUTION!!! DON'T EDIT THIS PART START
 # Print out the solution:
@@ -52,6 +62,7 @@ print('Number of no-data values in column "TMIN":', tmin_nodata_count)
 
 day_count = None 
 #YOUR CODE HERE 4
+day_count = len(data['DATE'])
 
 #CAUTION!!! DON'T EDIT THIS PART START
 # Print out the solution:
@@ -65,6 +76,7 @@ print("Number of days:", day_count)
 first_obs = None
  
 # YOUR CODE HERE 5
+first_obs = min(data['DATE'])
 
 #CAUTION!!! DON'T EDIT THIS PART START
 # Print out the solution:
@@ -77,6 +89,7 @@ print('Date of the first observation:',first_obs)
 last_obs = None
 
 # YOUR CODE HERE 6
+last_obs = max(data['DATE'])
 
 #CAUTION!!! DON'T EDIT THIS PART START
 # Print out the solution:
@@ -90,6 +103,7 @@ print('Date of the last observation:', last_obs)
 avg_temp = None
 
 # YOUR CODE HERE 7
+avg_temp = data['TAVG'].mean()
 
 #CAUTION!!! DON'T EDIT THIS PART START
 # Print out the solution:
@@ -103,6 +117,7 @@ print('Average temperature (F) for the whole dataset:', round(avg_temp, 2))
 avg_temp_1969 = None
 
 # YOUR CODE HERE 8
+avg_temp_1969 = data.query('19690501 <= DATE <= 19690831')['TMAX'].mean()
 
 #CAUTION!!! DON'T EDIT THIS PART START
 # This test print should print a number
